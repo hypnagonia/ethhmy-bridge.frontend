@@ -84,32 +84,14 @@ export class Exchange extends React.Component<
   get tokenInfo(): ITokenInfo {
     const { user, exchange, userMetamask } = this.props;
 
-    switch (exchange.token) {
-      case TOKEN.BUSD:
         return {
-          label: 'BUSD',
+          label: 'BNB',
           maxAmount:
             exchange.mode === EXCHANGE_MODE.ONE_TO_ETH
               ? user.hmyBUSDBalance
               : userMetamask.ethBUSDBalance,
         };
-      case TOKEN.LINK:
-        return {
-          label: 'LINK',
-          maxAmount:
-            exchange.mode === EXCHANGE_MODE.ONE_TO_ETH
-              ? user.hmyLINKBalance
-              : userMetamask.ethLINKBalance,
-        };
-      default:
-        return {
-          label: 'BUSD',
-          maxAmount:
-            exchange.mode === EXCHANGE_MODE.ONE_TO_ETH
-              ? user.hmyBUSDBalance
-              : userMetamask.ethBUSDBalance,
-        };
-    }
+
   }
 
   render() {
@@ -165,7 +147,7 @@ export class Exchange extends React.Component<
 
     return (
       <Box direction="column" pad="xlarge" className={styles.exchangeContainer}>
-        <Box direction="row">
+       {/* <Box direction="row">
           <Box
             className={cn(
               styles.itemToken,
@@ -191,9 +173,9 @@ export class Exchange extends React.Component<
             }}
           >
             <img className={styles.imgToken} src="/link.png" />
-            <Text>LINK</Text>
+            <Text>LINK1</Text>
           </Box>
-        </Box>
+        </Box>*/}
 
         <Form
           ref={ref => (this.formRef = ref)}
@@ -242,7 +224,7 @@ export class Exchange extends React.Component<
               {exchange.mode === EXCHANGE_MODE.ONE_TO_ETH ? (
                 <Box direction="column" fill={true}>
                   <Input
-                    label="ETH Address"
+                    label="Binance Smart Chain Address"
                     name="ethAddress"
                     style={{ width: '100%' }}
                     placeholder="Your address"
@@ -252,7 +234,7 @@ export class Exchange extends React.Component<
               ) : (
                 <Box direction="column" fill={true}>
                   <Input
-                    label="ONE Address"
+                    label="Harmony Address"
                     name="oneAddress"
                     style={{ width: '100%' }}
                     placeholder="Your address"

@@ -26,7 +26,7 @@ const columns: IColumn<IOperation>[] = [
     render: value => <OperationType type={value} />,
   },
   {
-    title: 'Eth address',
+    title: 'BNB address',
     key: 'ethAddress',
     dataIndex: 'ethAddress',
     width: 160,

@@ -9,7 +9,9 @@
     "test": "jest --verbose",
     "test:watch": "jest --watch",
     "test:debug": "jest --config=jest.config.debug.js",
-    "version": "echo $npm_package_version"
+    "version": "echo $npm_package_version",
+    "fbi": "firebase init",
+    "fbc": "firebase deploy"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
     "core-decorators": "^0.20.0",
     "eth-sig-util": "^2.5.3",
     "ethjs": "^0.4.0",
+    "firebase": "^7.19.1",
     "grommet": "^2.8.1",
     "lodash": "^4.17.15",
     "mobx": "5.15.0",
@@ -31,6 +34,7 @@
     "mobx-react-router": "4.0.7",
     "moment": "^2.24.0",
     "query-string": "^6.10.1",
+    "rc-table": "^7.4.5",
     "rc-tooltip": "^4.2.1",
     "react": "16.12.0",
     "react-cookie-banner": "^4.1.0",
@@ -44,8 +48,7 @@
     "react-switch": "^5.0.1",
     "superagent": "^6.0.0",
     "tslib": "^1.10.0",
-    "web3": "1.2.11",
-    "rc-table": "^7.4.5"
+    "web3": "1.2.11"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.9",

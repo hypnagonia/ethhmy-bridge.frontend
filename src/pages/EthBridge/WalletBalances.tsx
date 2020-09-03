@@ -7,6 +7,7 @@ import cn from 'classnames';
 import * as styles from './wallet-balances.styl';
 import {
   formatWithSixDecimals,
+  formatBNBDecimals,
   formatWithTwoDecimals,
   ones,
   truncateAddressString,
@@ -84,22 +85,22 @@ export const WalletBalances = observer(() => {
                 value={truncateAddressString(user.address)}
               />
 
-              <AssetRow
+            {/*  <AssetRow
                 asset="Harmony ONE"
                 value={formatWithTwoDecimals(ones(user.balance))}
-              />
+              />*/}
 
               <AssetRow
-                asset="Harmony BUSD"
+                asset="Harmony BNB"
                 value={formatWithTwoDecimals(user.hmyBUSDBalance)}
                 selected={exchange.token === TOKEN.BUSD}
               />
 
-              <AssetRow
+            {/*  <AssetRow
                 asset="Harmony LINK"
                 value={formatWithTwoDecimals(user.hmyLINKBalance)}
                 selected={exchange.token === TOKEN.LINK}
-              />
+              />*/}
             </>
           ) : (
             <Box direction="row" align="baseline" justify="start">
@@ -145,11 +146,11 @@ export const WalletBalances = observer(() => {
               />
 
               <AssetRow
-                asset="ETH"
-                value={formatWithSixDecimals(userMetamask.ethBalance)}
+                asset="BNB"
+                value={formatBNBDecimals(userMetamask.ethBalance)}
               />
 
-              <AssetRow
+             {/* <AssetRow
                 asset="Ethereum BUSD"
                 value={formatWithTwoDecimals(userMetamask.ethBUSDBalance)}
                 selected={exchange.token === TOKEN.BUSD}
@@ -160,7 +161,7 @@ export const WalletBalances = observer(() => {
                 value={formatWithTwoDecimals(userMetamask.ethLINKBalance)}
                 selected={exchange.token === TOKEN.LINK}
                 last={true}
-              />
+              />*/}
             </>
           ) : (
             <Box direction="row" align="baseline" justify="start">

@@ -102,7 +102,7 @@ export const Details = observer<{ showTotal?: boolean; children?: any }>(
     return (
       <Box direction="column">
         <AssetRow
-          label="ETH address"
+          label="BNB address"
           value={truncateAddressString(exchange.transaction.ethAddress)}
           address={true}
         />
