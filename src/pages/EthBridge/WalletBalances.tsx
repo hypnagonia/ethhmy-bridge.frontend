@@ -132,15 +132,15 @@ export const WalletBalances = observer(() => {
 
         <Box direction="column" margin={{ top: 'medium' }}>
           <Box direction="row" align="center" margin={{ bottom: 'xsmall' }}>
-            <img className={styles.imgToken} src="/eth.svg" />
-            <Title margin={{ right: 'xsmall' }}>Ethereum</Title>
-            <Text margin={{ top: '4px' }}>(Metamask)</Text>
+            <img className={styles.imgToken} width="20" height="20" src="/bnb.svg" />
+            <Title margin={{ right: 'xsmall' }}>Binance Chain</Title>
+            <Text margin={{ top: '4px' }}>(Math Wallet)</Text>
           </Box>
 
           {userMetamask.isAuthorized ? (
             <>
               <AssetRow
-                asset="ETH Address"
+                asset="BNB Address"
                 value={truncateAddressString(userMetamask.ethAddress)}
               />
 
@@ -170,7 +170,7 @@ export const WalletBalances = observer(() => {
                   userMetamask.signIn();
                 }}
               >
-                Connect Metamask
+                Connect Math Wallet
               </Button>
               {userMetamask.error ? <Error error={userMetamask.error} /> : null}
             </Box>

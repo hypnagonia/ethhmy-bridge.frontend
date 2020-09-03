@@ -67,7 +67,7 @@ export const Head: React.FC<IStyledChildrenProps<BoxProps>> = withTheme(
             {/*  <Text>Select token</Text>*/}
             {/*</Box>*/}
 
-            <Box
+           {/* <Box
               className={cn(
                 styles.itemToken,
                 isGetTokens ? styles.selected : '',
@@ -77,9 +77,9 @@ export const Head: React.FC<IStyledChildrenProps<BoxProps>> = withTheme(
               }}
             >
               <Text>Get tokens</Text>
-            </Box>
+            </Box>*/}
 
-            <Box
+           {/* <Box
               className={cn(
                 styles.itemToken,
                 isExplorer ? styles.selected : '',
@@ -89,9 +89,9 @@ export const Head: React.FC<IStyledChildrenProps<BoxProps>> = withTheme(
               }}
             >
               <Text>Explorer</Text>
-            </Box>
+            </Box>*/}
 
-            <Box
+           {/* <Box
               className={cn(
                 styles.itemToken,
                 !isExplorer && !isGetTokens ? styles.selected : '',
@@ -101,7 +101,7 @@ export const Head: React.FC<IStyledChildrenProps<BoxProps>> = withTheme(
               }}
             >
               <Text>Bridge</Text>
-            </Box>
+            </Box>*/}
           </Box>
         </Box>
       </Box>

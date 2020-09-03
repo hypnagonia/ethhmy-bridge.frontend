@@ -32,9 +32,9 @@ const LargeButton = (props: {
     >
       <Box direction={props.reverse ? 'row-reverse' : 'row'} align="center">
         <Box direction="row" align="center">
-          <img className={styles.imgToken} src="/eth.svg" />
+          <img className={styles.imgToken} width="20" height="20" src="/bnb.svg" />
           <Text size="large" className={styles.title}>
-            ETH
+            BNB
           </Text>
         </Box>
         <Box direction="row" margin={{ horizontal: 'medium' }} align="center">

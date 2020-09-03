@@ -17,8 +17,8 @@ export const OperationType = (props: { type: EXCHANGE_MODE }) => {
       <Box direction="row" align="center">
         <img
           className={styles.imgToken}
-          style={{ height: 20 }}
-          src="/eth.svg"
+          style={{ height: 20, width: 20 }}
+          src="/bnb.svg"
         />
         <Text size="small">ETH</Text>
       </Box>
