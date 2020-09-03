@@ -134,7 +134,7 @@ export const WalletBalances = observer(() => {
         <Box direction="column" margin={{ top: 'medium' }}>
           <Box direction="row" align="center" margin={{ bottom: 'xsmall' }}>
             <img className={styles.imgToken} width="20" height="20" src="/bnb.svg" />
-            <Title margin={{ right: 'xsmall' }}>Binance Chain</Title>
+            <Title margin={{ right: 'xsmall' }}>Binance Smart Chain</Title>
             <Text margin={{ top: '4px' }}>(Math Wallet)</Text>
           </Box>
 

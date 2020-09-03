@@ -89,7 +89,7 @@ export class Exchange extends React.Component<
           maxAmount:
             exchange.mode === EXCHANGE_MODE.ONE_TO_ETH
               ? user.hmyBUSDBalance
-              : userMetamask.ethBUSDBalance,
+              : userMetamask.ethBalance,
         };
 
   }
