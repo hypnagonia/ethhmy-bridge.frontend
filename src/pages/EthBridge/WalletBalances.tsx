@@ -131,11 +131,28 @@ export const WalletBalances = observer(() => {
           )}
         </Box>
 
-        <Box direction="column" margin={{ top: 'medium' }}>
-          <Box direction="row" align="center" margin={{ bottom: 'xsmall' }}>
+        <Box direction="column" margin={{ bottom: 'large' }}>
+          <Box direction="row" justify="between" margin={{ bottom: 'xsmall' }}>
+            <Box direction="row" align="center">
             <img className={styles.imgToken} width="20" height="20" src="/bnb.svg" />
-            <Title margin={{ right: 'xsmall' }}>Binance Smart Chain</Title>
+            <Title margin={{ right: 'xsmall' }}>Binance Chain</Title>
             <Text margin={{ top: '4px' }}>(Math Wallet)</Text>
+            </Box>
+            {userMetamask.isAuthorized && (
+                <Box
+                    onClick={() => {
+                      userMetamask.signOut();
+                    }}
+                    margin={{ left: 'medium' }}
+                >
+                  <Icon
+                      glyph="Logout"
+                      size="24px"
+                      style={{ opacity: 0.5 }}
+                      color="BlackTxt"
+                  />
+                </Box>
+            )}
           </Box>
 
           {userMetamask.isAuthorized ? (
@@ -147,15 +164,16 @@ export const WalletBalances = observer(() => {
 
               <AssetRow
                 asset="BNB"
-                value={formatBNBDecimals(userMetamask.ethBalance)}
+                value={formatWithTwoDecimals(userMetamask.ethBalance)}
               />
 
-             {/* <AssetRow
-                asset="Ethereum BUSD"
+           <AssetRow
+                asset="HRC20-1DC"
                 value={formatWithTwoDecimals(userMetamask.ethBUSDBalance)}
                 selected={exchange.token === TOKEN.BUSD}
               />
 
+              {/*
               <AssetRow
                 asset="Ethereum LINK"
                 value={formatWithTwoDecimals(userMetamask.ethLINKBalance)}

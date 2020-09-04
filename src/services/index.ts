@@ -10,6 +10,7 @@ export const createOperation = async params => {
 };
 
 export const getOperation = async (id): Promise<IOperation> => {
+
   const res = await agent.get<{ body: IOperation }>(
     baseUrl + '/operations/' + id,
   );
@@ -17,10 +18,12 @@ export const getOperation = async (id): Promise<IOperation> => {
   return res.body;
 };
 
+//@ts-ignore
 export const getOperations = async (): Promise<IOperation[]> => {
-  const res = await agent.get<{ body: IOperation[] }>(baseUrl + '/operations/');
+  //const res = await agent.get<{ body: IOperation[] }>(baseUrl + '/operations/');
 
-  return res.body;
+
+  //return res.body;
 };
 
 export const confirmAction = async ({

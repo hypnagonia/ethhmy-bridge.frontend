@@ -48,12 +48,12 @@ export class Exchange extends StoreConstructor {
   constructor(stores) {
     super(stores);
 
-    setInterval(async () => {
+   /* setInterval(async () => {
       if (this.operation) {
         this.operation = await operationService.getOperation(this.operation.id);
         this.setStatus();
       }
-    }, 3000);
+    }, 3000);*/
   }
 
   @computed

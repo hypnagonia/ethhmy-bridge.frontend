@@ -19,11 +19,11 @@ const sixDecimalsFormatter = new Intl.NumberFormat('en-US', {
 
 const formatBNBDecimalsNumber = new Intl.NumberFormat('en-US', {
   //minimumFractionDigits: 18,
-  maximumFractionDigits: 18,
+  maximumFractionDigits: 8,
 });
 
 export function formatBNBDecimals(value: number | string) {
-  return formatBNBDecimalsNumber.format(Number(value) / 1e18);
+  return formatBNBDecimalsNumber.format(Number(value));
 }
 
 

@@ -59,17 +59,11 @@ export const EthBridge = observer((props: any) => {
 
   useEffect(() => {
     if (props.match.params.token) {
-      if ([TOKEN.LINK, TOKEN.BUSD].includes(props.match.params.token)) {
-        exchange.setToken(props.match.params.token);
-      } else {
-        routing.push(TOKEN.BUSD);
-      }
+
+        routing.push('');
+
     }
 
-    if (props.match.params.operationId) {
-      exchange.setOperationId(props.match.params.operationId);
-      exchange.sendOperation(props.match.params.operationId);
-    }
   }, []);
 
   return (

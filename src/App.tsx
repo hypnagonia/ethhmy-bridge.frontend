@@ -12,15 +12,15 @@ export const App: React.FC = () => (
   <Providers>
     <React.Suspense fallback={<div />}>
       <Switch>
-        <Route exact path="/get-tokens" component={MintTokens} />
-        <Route exact path="/explorer" component={Explorer} />
-        <Route exact path="/:token" component={EthBridge} />
-        <Route
+        {/*<Route exact path="/get-tokens" component={MintTokens} />
+        <Route exact path="/explorer" component={Explorer} />*/}
+        <Route exact path="/" component={EthBridge} />
+        {/*<Route
           exact
           path="/:token/operations/:operationId"
           component={EthBridge}
-        />
-        <Redirect to="/busd" />
+        />*/}
+        <Redirect to="/" />
       </Switch>
     </React.Suspense>
     <ActionModals />

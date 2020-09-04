@@ -224,7 +224,7 @@ export class Exchange extends React.Component<
               {exchange.mode === EXCHANGE_MODE.ONE_TO_ETH ? (
                 <Box direction="column" fill={true}>
                   <Input
-                    label="Binance Smart Chain Address"
+                    label="Binance Chain Address"
                     name="ethAddress"
                     style={{ width: '100%' }}
                     placeholder="Your address"
@@ -286,3 +286,4 @@ export class Exchange extends React.Component<
     );
   }
 }
+

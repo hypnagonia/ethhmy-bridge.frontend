@@ -48,29 +48,45 @@ export class UserStoreMetamask extends StoreConstructor {
     }
 
     @action.bound
+    public async signOut() {
+        console.log('signOut')
+        //@ts-ignore
+        await window.mathExtension
+            .forgetIdentity()
+        this.isAuthorized = false
+    }
+
+    @action.bound
     public async signIn() {
         try {
             this.error = '';
 
             // @ts-ignore
-            const isMathWallet = window.web3
-                // @ts-ignore
-                && window.web3.currentProvider
-                // @ts-ignore
-                && window.web3.currentProvider.isMathWallet
-                // @ts-ignore
-                && window.web3.currentProvider.chainId === '97'
-                // @ts-ignore
-                && window.web3.currentProvider.rpc.rpcUrl.indexOf('binance') !== -1
+            const isMathWallet = !!window.mathExtension
 
             if (!isMathWallet) {
                 setTimeout(this.signIn, 1000)
                 return this.setError('Math Wallet not found');
             }
 
+            // @ts-ignore
+            const identity = await window.mathExtension
+                .getIdentity({
+                    blockchain: "binance",
+                    chainId: "Binance-Chain-Ganges",
+                })
+
+            this.handleAccountsChanged([identity.account])
+            /*.then((identity) => {
+                this.address = identity.account;
+                this.httpProvider = window.mathExtension.httpProvider(this.rpcUrl);
+                this.getBalance();
+            });*/
+
             this.isAuthorized = true;
 
-            this.handleAccountsChanged(window.web3.eth.accounts)
+
+            // this.handleAccountsChanged(window.web3.eth.accounts)
             /* const provider = await detectEthereumProvider();
 
              this.provider = provider;
@@ -101,9 +117,16 @@ export class UserStoreMetamask extends StoreConstructor {
     @action.bound public getBalances = async () => {
         if (this.ethAddress) {
             try {
-                this.ethBalance = await new Promise((resolve, reject) => {
+
+                // @ts-ignore
+                const {result} = await window.mathExtension.httpProvider('https://testnet-dex-asiapacific.binance.org').get(`/api/v1/account/${this.ethAddress}`)
+                const {balances} = result
+                this.ethBalance = balances.find(a => a.symbol === 'BNB').free
+                this.ethBUSDBalance = balances.find(a => a.symbol === 'HRC20-1DC').free
+
+               /* this.ethBalance = await new Promise((resolve, reject) => {
                     // @ts-ignore
-                    window.web3.eth.getBalance(this.ethAddress, (err, balance)=>{
+                    window.web3.eth.getBalance(this.ethAddress, (err, balance) => {
                         if (err) {
                             return reject(err)
                         }
@@ -111,7 +134,7 @@ export class UserStoreMetamask extends StoreConstructor {
                         resolve(balance)
                     })
 
-                });
+                });*/
 
             } catch (e) {
                 console.error(e);
