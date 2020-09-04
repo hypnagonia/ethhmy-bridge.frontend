@@ -227,7 +227,7 @@ export class Exchange extends React.Component<
                     label="Binance Chain Address"
                     name="ethAddress"
                     style={{ width: '100%' }}
-                    placeholder="Your address"
+                    placeholder="Recipient address"
                     rules={[isRequired]}
                   />
                 </Box>
@@ -237,7 +237,7 @@ export class Exchange extends React.Component<
                     label="Harmony Address"
                     name="oneAddress"
                     style={{ width: '100%' }}
-                    placeholder="Your address"
+                    placeholder="Recipient address"
                     rules={[isRequired]}
                   />
                 </Box>

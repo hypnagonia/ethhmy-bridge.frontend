@@ -85,10 +85,10 @@ export const WalletBalances = observer(() => {
                 value={truncateAddressString(user.address)}
               />
 
-            {/*  <AssetRow
+              {  <AssetRow
                 asset="Harmony ONE"
                 value={formatWithTwoDecimals(ones(user.balance))}
-              />*/}
+              />}
 
               <AssetRow
                 asset="Harmony BNB"

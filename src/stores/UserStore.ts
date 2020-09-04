@@ -93,6 +93,9 @@ export class UserStoreEx extends StoreConstructor {
         this.hmyBUSDBalance = await hmyMethodsBUSD.checkHmyBalance(
           this.address,
         );
+
+        console.log({hmyBUSDBalance: this.hmyBUSDBalance}, this.address)
+
         this.hmyLINKBalance = await hmyMethodsLINK.checkHmyBalance(
           this.address,
         );
