@@ -11,7 +11,7 @@ import {
 import { inject, observer } from 'mobx-react';
 import { IStores } from 'stores';
 import { Button, Icon, Text } from 'components/Base';
-import { formatWithTwoDecimals, moreThanZero } from 'utils';
+import { formatWithTwoDecimals, moreThanZero, formatBNBDecimals } from 'utils';
 import { Spinner } from 'ui/Spinner';
 import { EXCHANGE_STEPS } from '../../stores/Exchange';
 import { Details } from './Details';
@@ -216,7 +216,7 @@ export class Exchange extends React.Component<
                 />
                 <Text size="small" style={{ textAlign: 'right' }}>
                   <b>*Max Available</b> ={' '}
-                  {formatWithTwoDecimals(this.tokenInfo.maxAmount)}{' '}
+                  {formatBNBDecimals(this.tokenInfo.maxAmount)}{' '}
                   {this.tokenInfo.label}
                 </Text>
               </Box>

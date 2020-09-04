@@ -92,7 +92,7 @@ export const WalletBalances = observer(() => {
 
               <AssetRow
                 asset="Harmony BNB"
-                value={formatWithTwoDecimals(user.hmyBUSDBalance)}
+                value={formatBNBDecimals(user.hmyBUSDBalance)}
                 selected={exchange.token === TOKEN.BUSD}
               />
 
@@ -164,12 +164,12 @@ export const WalletBalances = observer(() => {
 
               <AssetRow
                 asset="BNB"
-                value={formatWithTwoDecimals(userMetamask.ethBalance)}
+                value={formatBNBDecimals(userMetamask.ethBalance)}
               />
 
            <AssetRow
                 asset="HRC20-1DC"
-                value={formatWithTwoDecimals(userMetamask.ethBUSDBalance)}
+                value={formatBNBDecimals(userMetamask.ethBUSDBalance)}
                 selected={exchange.token === TOKEN.BUSD}
               />
 

@@ -18,7 +18,7 @@ const sixDecimalsFormatter = new Intl.NumberFormat('en-US', {
 });
 
 const formatBNBDecimalsNumber = new Intl.NumberFormat('en-US', {
-  //minimumFractionDigits: 18,
+  minimumFractionDigits: 8,
   maximumFractionDigits: 8,
 });
 

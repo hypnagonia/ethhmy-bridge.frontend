@@ -49,7 +49,6 @@ export class UserStoreMetamask extends StoreConstructor {
 
     @action.bound
     public async signOut() {
-        console.log('signOut')
         //@ts-ignore
         await window.mathExtension
             .forgetIdentity()
