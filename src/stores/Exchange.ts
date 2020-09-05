@@ -188,18 +188,6 @@ export class Exchange extends StoreConstructor {
         }
     }
 
-    @action.bound
-    async setOperationId(operationId: string) {
-        this.operation = await operationService.getOperation(operationId);
-
-        this.mode = this.operation.type;
-        this.token = this.operation.token;
-        this.transaction.amount = String(this.operation.amount);
-        this.transaction.ethAddress = this.operation.ethAddress;
-        this.transaction.oneAddress = this.operation.oneAddress;
-
-        this.setStatus();
-    }
 
     @action.bound
     async createOperation() {
@@ -256,6 +244,7 @@ export class Exchange extends StoreConstructor {
             let {amount, oneAddress, ethAddress} = this.transaction
 
 
+            // console.log({})
             amount = String(+amount * 10 ** 8)
 
             // @ts-ignore
@@ -279,7 +268,7 @@ export class Exchange extends StoreConstructor {
                 chain_id: chainId,
                 account_number: accountNumber,
                 sequence: sequence,
-                memo: "",
+                memo: oneAddress,
                 type: "SendMsg",
                 sender: from,
                 msg: {
