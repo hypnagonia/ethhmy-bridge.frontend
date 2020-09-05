@@ -17,11 +17,10 @@ import {parseAmount, formatAmount} from "../utils/binance";
 import Web3 from "web3";
 
 import {
-    ethMethodsBUSD,
     hmyMethodsBUSD,
-    ethMethodsLINK,
-    hmyMethodsLINK,
+    binanceBridgeContract
 } from '../blockchain-bridge';
+import {connectToOneWallet} from "../blockchain-bridge/hmy/helpers";
 
 export enum EXCHANGE_STEPS {
     BASE = 'BASE',
@@ -214,11 +213,6 @@ export class Exchange extends StoreConstructor {
         try {
             this.actionStatus = 'fetching';
 
-            let operationId = id;
-
-            console.log(this.mode, this.token,
-            )
-
             console.log('sendOperation',
                 this.transaction.oneAddress,
                 this.transaction.ethAddress,
@@ -243,168 +237,193 @@ export class Exchange extends StoreConstructor {
 
             let {amount, oneAddress, ethAddress} = this.transaction
 
+            if (this.mode === 'eth_to_one') {
+                // console.log({})
+                amount = String(+amount * 10 ** 8)
 
-            // console.log({})
-            amount = String(+amount * 10 ** 8)
+                // @ts-ignore
+                const httpProvider = window.mathExtension.httpProvider('https://testnet-dex-asiapacific.binance.org')
+                const account = await httpProvider.get(
+                    `/api/v1/account/${ethAddress}`
+                );
 
-            // @ts-ignore
-            const httpProvider = window.mathExtension.httpProvider('https://testnet-dex-asiapacific.binance.org')
-            const account = await httpProvider.get(
-                `/api/v1/account/${ethAddress}`
-            );
+                const node = await httpProvider.get(`/api/v1/node-info`);
 
-            const node = await httpProvider.get(`/api/v1/node-info`);
+                const sequence = account.result && account.result.sequence;
+                const accountNumber = account.result && account.result.account_number;
+                const chainId = node.result.node_info.network;
 
-            const sequence = account.result && account.result.sequence;
-            const accountNumber = account.result && account.result.account_number;
-            const chainId = node.result.node_info.network;
+                const from = ethAddress
+                const to = 'tbnb1qwsdcq4pvnwqr8x43ww4whq0klvgf0dvlvwuqv'
 
-            const from = ethAddress
-            const to = 'tbnb1qwsdcq4pvnwqr8x43ww4whq0klvgf0dvlvwuqv'
+                console.log({from, to, amount, accountNumber, chainId})
 
-            console.log({from, to, amount,accountNumber, chainId })
-
-            const transaction = {
-                chain_id: chainId,
-                account_number: accountNumber,
-                sequence: sequence,
-                memo: oneAddress,
-                type: "SendMsg",
-                sender: from,
-                msg: {
-                    inputs: [{
-                        address: from,
-                        coins: [{
-                            denom: "HRC20-1DC",
-                            amount
+                const transaction = {
+                    chain_id: chainId,
+                    account_number: accountNumber,
+                    sequence: sequence,
+                    memo: oneAddress,
+                    type: "SendMsg",
+                    sender: from,
+                    msg: {
+                        inputs: [{
+                            address: from,
+                            coins: [{
+                                denom: "HRC20-1DC",
+                                amount
+                            }]
+                        }],
+                        outputs: [{
+                            address: to,
+                            coins: [{
+                                denom: "HRC20-1DC",
+                                amount
+                            }]
                         }]
-                    }],
-                    outputs: [{
-                        address: to,
-                        coins: [{
-                            denom: "HRC20-1DC",
-                            amount
-                        }]
-                    }]
+                    }
                 }
-            }
 
-            /*const transaction = {
-                chain_id: chainId,
-                account_number: accountNumber,
-                sequence: sequence,
-                memo: "",
-                type: "TransferOutMsg",
-                msg: {
-                    from,
-                    to,
-                    amount: {denom: 'BNB', amount: amount},
-                    // @ts-ignore
-                    expire_time: Date.parse(new Date()) / 1000 + 60 * 3,
-                },
-            };*/
+                console.log({transaction})
 
-            console.log({transaction})
+                // @ts-ignore
+                const signTransaction = await window.mathExtension.requestSignature(
+                    transaction,
+                    {
+                        blockchain: "binance",
+                        chainId
+                    }
+                );
 
-            // @ts-ignore
-            const signTransaction = await window.mathExtension.requestSignature(
-                transaction,
-                {
-                    blockchain: "binance",
-                    chainId
-                }
-            );
+                console.log({signTransaction})
 
-            console.log({signTransaction})
+                const opts = {
+                    data: signTransaction.tx,
+                    headers: {
+                        "Content-Type": "text/plain",
+                    },
+                };
+                const result = await httpProvider.post(
+                    "/api/v1/broadcast?sync=true",
+                    null,
+                    opts
+                );
 
-            const opts = {
-                data: signTransaction.tx,
-                headers: {
-                    "Content-Type": "text/plain",
-                },
-            };
-            const result = await httpProvider.post(
-                "/api/v1/broadcast?sync=true",
-                null,
-                opts
-            );
+                console.log(signTransaction, result);
 
-            console.log(signTransaction, result);
-
-            console.log({account})
+                console.log({account})
 
 
-            this.actionStatus = 'success';
-            this.stepNumber = this.stepsConfig.length - 1;
+                this.actionStatus = 'success';
+                this.stepNumber = this.stepsConfig.length - 1;
 
-            return
+                return
+            } else {
+                const bridgeAddress = '0xd61c7401944413a44b7db275c9c094aef13486ad'
 
-            if (
-                this.operation.status === STATUS.SUCCESS ||
-                this.operation.status === STATUS.ERROR
-            ) {
-                return;
-            }
+                //0xd61C7401944413a44b7Db275c9c094AeF13486aD
+                //0xd61c7401944413a44b7db275c9c094aef13486ad
+                //hmyMethodsBUSD
+                /*
+                here is the bridge address 0xd61c7401944413a44b7db275c9c094aef13486ad and Bridge.json attached. you need make these two calls
 
-            const confirmCallback = async (transactionHash, actionId) => {
-                this.operation = await operationService.confirmAction({
-                    operationId,
-                    transactionHash,
-                    actionId,
+                let response =
+                await token.methods.approve(HOME_BRIDGE_ADDRESS, amount).send(options);
+
+                response = await bridge.methods.exchange(amount).send(options);
+                 */
+
+                console.log('approve start')
+                const result = await hmyMethodsBUSD.approve(
+                    bridgeAddress,
+                    amount
+                );
+                console.log('approve end')
+
+                console.log('result',{result})
+
+                const options = { gasPrice: 1000000000, gasLimit: 6721900 }
+
+                await connectToOneWallet(binanceBridgeContract.wallet, null, (e)=>{
+                    throw e
                 });
-            };
+                const res2 = await binanceBridgeContract
+                    .methods.exchange(amount).send(options)
+                console.log({res2})
 
-            let ethMethods, hmyMethods;
 
-            if (this.token === TOKEN.BUSD) {
-                ethMethods = ethMethodsBUSD;
-                hmyMethods = hmyMethodsBUSD;
+                this.actionStatus = 'success';
+                this.stepNumber = this.stepsConfig.length - 1;
+
+                return
             }
 
-            if (this.token === TOKEN.LINK) {
-                ethMethods = ethMethodsLINK;
-                hmyMethods = hmyMethodsLINK;
-            }
 
-            if (this.mode === EXCHANGE_MODE.ETH_TO_ONE) {
-                const approveEthManger = this.operation.actions[0];
+            /*  if (
+                  this.operation.status === STATUS.SUCCESS ||
+                  this.operation.status === STATUS.ERROR
+              ) {
+                  return;
+              }
 
-                if (approveEthManger.status === STATUS.WAITING) {
-                    await ethMethods.approveEthManger(this.transaction.amount, hash =>
-                        confirmCallback(hash, approveEthManger.id),
-                    );
-                }
+              const confirmCallback = async (transactionHash, actionId) => {
+                  this.operation = await operationService.confirmAction({
+                      operationId,
+                      transactionHash,
+                      actionId,
+                  });
+              };
 
-                const lockToken = this.operation.actions[1];
+              let ethMethods, hmyMethods;
 
-                if (lockToken.status === STATUS.WAITING) {
-                    await ethMethods.lockToken(
-                        this.transaction.oneAddress,
-                        this.transaction.amount,
-                        hash => confirmCallback(hash, lockToken.id),
-                    );
-                }
-            }
+              if (this.token === TOKEN.BUSD) {
+                  ethMethods = ethMethodsBUSD;
+                  hmyMethods = hmyMethodsBUSD;
+              }
 
-            if (this.mode === EXCHANGE_MODE.ONE_TO_ETH) {
-                const approveHmyManger = this.operation.actions[0];
+              if (this.token === TOKEN.LINK) {
+                  ethMethods = ethMethodsLINK;
+                  hmyMethods = hmyMethodsLINK;
+              }
 
-                if (approveHmyManger.status === STATUS.WAITING) {
-                    await hmyMethods.approveHmyManger(this.transaction.amount, hash =>
-                        confirmCallback(hash, approveHmyManger.id),
-                    );
-                }
+              if (this.mode === EXCHANGE_MODE.ETH_TO_ONE) {
+                  const approveEthManger = this.operation.actions[0];
 
-                const burnToken = this.operation.actions[1];
+                  if (approveEthManger.status === STATUS.WAITING) {
+                      await ethMethods.approveEthManger(this.transaction.amount, hash =>
+                          confirmCallback(hash, approveEthManger.id),
+                      );
+                  }
 
-                if (burnToken.status === STATUS.WAITING) {
-                    await hmyMethods.burnToken(
-                        this.transaction.ethAddress,
-                        this.transaction.amount,
-                        hash => confirmCallback(hash, burnToken.id),
-                    );
-                }
-            }
+                  const lockToken = this.operation.actions[1];
+
+                  if (lockToken.status === STATUS.WAITING) {
+                      await ethMethods.lockToken(
+                          this.transaction.oneAddress,
+                          this.transaction.amount,
+                          hash => confirmCallback(hash, lockToken.id),
+                      );
+                  }
+              }
+
+              if (this.mode === EXCHANGE_MODE.ONE_TO_ETH) {
+                  const approveHmyManger = this.operation.actions[0];
+
+                  if (approveHmyManger.status === STATUS.WAITING) {
+                      await hmyMethods.approveHmyManger(this.transaction.amount, hash =>
+                          confirmCallback(hash, approveHmyManger.id),
+                      );
+                  }
+
+                  const burnToken = this.operation.actions[1];
+
+                  if (burnToken.status === STATUS.WAITING) {
+                      await hmyMethods.burnToken(
+                          this.transaction.ethAddress,
+                          this.transaction.amount,
+                          hash => confirmCallback(hash, burnToken.id),
+                      );
+                  }
+              }*/
 
             return;
         } catch (e) {

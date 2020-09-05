@@ -133,12 +133,12 @@ export const Details = observer<{ showTotal?: boolean; children?: any }>(
             margin={{ top: 'small' }}
             style={{ borderTop: '1px solid #dedede' }}
           >
-            <AssetRow label="Network Fee" value="0.000021" />
+            {/*<AssetRow label="Network Fee" value="0.000021" />*/}
 
             <AssetRow
               label="Total"
               value={formatBNBDecimals(
-                Number(exchange.transaction.amount) + 0.000021,
+                Number(exchange.transaction.amount),
               )}
             />
           </Box>

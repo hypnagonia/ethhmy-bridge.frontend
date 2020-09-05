@@ -13,12 +13,24 @@ export const hmy = new Harmony(
   },
 );
 
+
+const binanceBridgeJSON = require('../out/bridgeContract.json');
+export const binanceBridgeContract = this.hmy.contracts.createContract(
+    binanceBridgeJSON,
+    '0xd61c7401944413a44b7db275c9c094aef13486ad'
+    //process.env.HMY_BUSD_CONTRACT,
+);
+
+
+
 const hmyBNBJson = require('../out/bnbContract.json');
 const hmyBNBJsonContract = this.hmy.contracts.createContract(
     hmyBNBJson,
     bnbHmyAddress
   //process.env.HMY_BUSD_CONTRACT,
 );
+
+
 
 const hmyBUSDManagerJson = require('../out/BUSDHmyManager.json');
 let hmyBUSDManagerContract = this.hmy.contracts.createContract(

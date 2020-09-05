@@ -66,4 +66,38 @@ export class HmyMethods {
       .balanceOf(addrHex)
       .call(this.options);
   };
+
+  /*approve = async (addrHex: string, amount: string) => {
+    //const addrHex = this.hmy.crypto.getAddress(addr).checksum;
+
+    return await this.hmyTokenContract.methods
+        .approve(addrHex, amount).send(
+            this.options
+        )
+
+  };
+  */
+
+  approve = async (addr, amount, sendTxCallback?) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await connectToOneWallet(this.hmyTokenContract.wallet, null, reject);
+
+         const addrHex = this.hmy.crypto.getAddress(addr).checksum;
+        //console.log({addrHex, amount, options: this.options})
+        //console.log({addrHex})
+
+        const res = await this.hmyTokenContract.methods
+            .approve(addrHex, amount)
+            .send(this.options)
+            .on('transactionHash', sendTxCallback);
+
+        console.log('approve done')
+        resolve(res);
+      } catch (e) {
+        console.log('approve reject')
+        reject(e);
+      }
+    });
+  };
 }
