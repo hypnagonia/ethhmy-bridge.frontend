@@ -3,7 +3,7 @@ import { Box } from 'grommet';
 import { observer } from 'mobx-react-lite';
 import { Icon, Text } from 'components/Base';
 import { useStores } from 'stores';
-import { formatWithSixDecimals, truncateAddressString } from 'utils';
+import { formatBNBDecimals, truncateAddressString } from 'utils';
 // import { EXPLORER_URL } from '../../blockchain';
 
 const AssetRow = props => {
@@ -42,14 +42,14 @@ const AssetRow = props => {
             {props.after}
           </Text>
         )}
-        {props.address && (
+        {/*{props.address && (
           <Icon
             glyph="PrintFormCopy"
             size="20px"
             color="#1c2a5e"
             style={{ marginLeft: 10, width: 20 }}
           />
-        )}
+        )}*/}
       </Box>
     </Box>
   );
@@ -102,7 +102,7 @@ export const Details = observer<{ showTotal?: boolean; children?: any }>(
     return (
       <Box direction="column">
         <AssetRow
-          label="BNB address"
+          label="Binance Chain address"
           value={truncateAddressString(exchange.transaction.ethAddress)}
           address={true}
         />
@@ -112,8 +112,8 @@ export const Details = observer<{ showTotal?: boolean; children?: any }>(
           address={true}
         />
         <AssetRow
-          label={`${String(exchange.token).toUpperCase()} amount`}
-          value={formatWithSixDecimals(exchange.transaction.amount)}
+          label={`BNB amount`}
+          value={formatBNBDecimals(exchange.transaction.amount)}
         />
 
         {/*<DataItem*/}
@@ -137,7 +137,7 @@ export const Details = observer<{ showTotal?: boolean; children?: any }>(
 
             <AssetRow
               label="Total"
-              value={formatWithSixDecimals(
+              value={formatBNBDecimals(
                 Number(exchange.transaction.amount) + 0.000021,
               )}
             />
