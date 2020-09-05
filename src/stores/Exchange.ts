@@ -286,14 +286,14 @@ export class Exchange extends StoreConstructor {
                     inputs: [{
                         address: from,
                         coins: [{
-                            denom: "BNB",
+                            denom: "HRC20-1DC",
                             amount
                         }]
                     }],
                     outputs: [{
                         address: to,
                         coins: [{
-                            denom: "BNB",
+                            denom: "HRC20-1DC",
                             amount
                         }]
                     }]

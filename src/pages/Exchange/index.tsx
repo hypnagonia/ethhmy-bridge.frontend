@@ -85,11 +85,11 @@ export class Exchange extends React.Component<
     const { user, exchange, userMetamask } = this.props;
 
         return {
-          label: 'BNB',
+          label: '',
           maxAmount:
             exchange.mode === EXCHANGE_MODE.ONE_TO_ETH
               ? user.hmyBUSDBalance
-              : userMetamask.ethBalance,
+              : userMetamask.ethBUSDBalance,
         };
 
   }
@@ -147,7 +147,7 @@ export class Exchange extends React.Component<
 
     return (
       <Box direction="column" pad="xlarge" className={styles.exchangeContainer}>
-       {<Box direction="row">
+      {/* {<Box direction="row">
           <Box
             className={cn(
               styles.itemToken,
@@ -175,13 +175,14 @@ export class Exchange extends React.Component<
             <img className={styles.imgToken} style={{height:20}} src="/one.svg" />
             <Text>HRC20-1DC</Text>
           </Box>
-        </Box>}
+        </Box>}*/}
 
         <Form
           ref={ref => (this.formRef = ref)}
           data={this.props.exchange.transaction}
           {...({} as any)}
         >
+
           {exchange.step.id === EXCHANGE_STEPS.BASE ? (
             <Box direction="column" fill={true}>
               <Box
@@ -191,7 +192,8 @@ export class Exchange extends React.Component<
                 margin={{ top: 'xlarge', bottom: 'large' }}
               >
                 <NumberInput
-                  label={`${this.tokenInfo.label} Amount`}
+                  label={this.props.exchange.mode === 'eth_to_one' ? `Binance HRC20-1DC
+ Amount` : 'Harmony BNB Amount'}
                   name="amount"
                   type="decimal"
                   placeholder="0"
